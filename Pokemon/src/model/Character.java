@@ -12,7 +12,7 @@ public class Character {
     public Character(String name, SpecialPower specialPower, ArrayList<Pokemon> pokemonList) {
         this.name = name;
         this.specialPower = specialPower;
-        this.pokemonList = pokemonList;
+        this.pokemonList = new ArrayList<>();
     }
 
     public String getName() {

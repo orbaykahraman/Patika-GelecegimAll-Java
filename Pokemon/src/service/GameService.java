@@ -3,6 +3,8 @@ package service;
 import model.Player;
 import model.Pokemon;
 
+import java.util.Scanner;
+
 public class GameService {
 
     public void attack(Player attacker, Player defender, boolean isPokeSpecialAttack, boolean isCharSpecialAttack) {
@@ -43,6 +45,38 @@ public class GameService {
         }
 
         defendingPokemon.setHealth(defendingPokemon.getHealth() - damage);
+    }
+
+    public boolean checkHealth(Player player) {
+        Pokemon pokemon = player.getCharacter().getPokemonList().get(0);
+
+        if(pokemon.getHealth() > 0 ) {
+            return true;
+        }
+        else {
+            System.out.println(player.getName() + " oyunu kaybetti.");
+            return false;
+        }
+    }
+
+    public void attackOptions(Player attacker,Player defender) {
+        System.out.print("Saldırı türünü seçiniz : \n" + "1-Normal Saldırı \n" + "2-Pokemon Özel Saldırı \n" + "3-Karakter Özel Saldırı \n");
+        Scanner scanner = new Scanner(System.in);
+        int chooseOfAttack = scanner.nextInt();
+
+        if(chooseOfAttack == 1) {
+            attack(attacker,defender,false,false);
+        }
+        else if(chooseOfAttack == 2) {
+            attack(attacker,defender,true,false);
+        }
+        else if(chooseOfAttack == 3) {
+            attack(attacker,defender,false,true);
+        }
+        else {
+            System.out.println("You choose wrong number.");
+        }
+
     }
 
 
