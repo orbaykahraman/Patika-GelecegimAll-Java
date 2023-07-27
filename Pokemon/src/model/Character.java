@@ -38,4 +38,13 @@ public class Character {
     public void setPokemonList(ArrayList<Pokemon> pokemonList) {
         this.pokemonList = pokemonList;
     }
+
+    @Override
+    public String toString() {
+        return "Character{" +
+                "name='" + name + '\'' +
+                ", specialPower=" + specialPower +
+                ", pokemonList=" + pokemonList +
+                '}';
+    }
 }
