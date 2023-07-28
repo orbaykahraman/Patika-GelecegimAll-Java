@@ -16,6 +16,8 @@ public class Main {
         PlayerService playerService = new PlayerService();
         WeatherService weatherService = new WeatherService();
         GameService gameService = new GameService();
+        int currentRound = 0;
+        int maxRound = 2;
 
         ArrayList<model.Character> characterList = loadService.loadCharacters();
         System.out.println("--------Characters----------");
@@ -49,6 +51,8 @@ public class Main {
 
                 player1.getCharacter().getPokemonList().add(pokemonList.get(pokemonChoose-1));
 
+                pokemonList.remove(player1.getCharacter().getPokemonList().get(0)); // pokemon seçildikçe listedn cıkarılıp aynı pokemonun seçilmemesi için.
+
             for (int j = 0; j < characterList.size(); j++){
                 System.out.println((j + 1) + "." + characterList.get(j).getName());
             }
@@ -67,28 +71,47 @@ public class Main {
             int pokemonChoose2 = inp.nextInt();
 
             player2.getCharacter().getPokemonList().add(pokemonList.get(pokemonChoose2-1));
-
+            pokemonList.remove(player1.getCharacter().getPokemonList().get(0)); // pokemon seçildikçe listedn cıkarılıp aynı pokemonun seçilmemesi için.
             Random random = new Random();
             boolean isPlayer1Fight = random.nextBoolean();
-            WeatherForecast weatherForecast = weatherService.getRandomWeather();
-            weatherService.applyWeatherImpact(player1,player2,weatherForecast);
 
             while(true) {
+                WeatherForecast weatherForecast = weatherService.getRandomWeather();
+                weatherService.applyWeatherImpact(player1,player2,weatherForecast);
+                System.out.println("HAVA DURUMU : " + weatherForecast);
+                System.out.println(player1.getCharacter().getPokemonList().get(0));
+                System.out.println(player2.getCharacter().getPokemonList().get(0));
                     if(gameService.checkHealth(player1) && gameService.checkHealth(player2)) {
                         if(isPlayer1Fight) {
                             System.out.println("Player 1(" + player1.getName() + ")'in sırası:");
                             gameService.attackOptions(player1,player2);
-                            isPlayer1Fight = true;
+                            isPlayer1Fight = false;
                         }
                         else {
                             System.out.println("Player 2(" + player2.getName() + ")'in sırası:");
                             gameService.attackOptions(player2,player1);
-                            isPlayer1Fight = false;
+                            isPlayer1Fight = true;
                         }
                     }
-                    else if(!gameService.checkHealth(player1) && gameService.checkHealth(player2)){
-                        //player 1 kaybetti
-                        System.out.println(player1.getName() + " oyunu kaybetti.");
+                    else {
+                        currentRound += 1;
+                        if (currentRound == 1) {
+                            System.out.println("------------------------------------");
+                            System.out.println("2.TUR BASLIYOR");
+                            System.out.println("------------------------------------");
+                        }
+                        if(currentRound == maxRound) {
+                            System.out.println("Oyun bitti.");
+                            break;
+                        }
+                         if(!gameService.checkHealth(player1) && gameService.checkHealth(player2)){
+                            //player 1 kaybetti
+                            gameService.makeChangesEndOfTheRound(player2,player1,pokemonList);
+                        }
+                         else if(gameService.checkHealth(player1) && !gameService.checkHealth(player2)) {
+                            //player 2 kaybetti
+                            gameService.makeChangesEndOfTheRound(player1,player2,pokemonList);
+                        }
 
                     }
             }

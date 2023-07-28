@@ -27,32 +27,32 @@ public class WeatherService {
     public void weatherImpact(WeatherForecast weatherForecast, Pokemon pokemon) {
         if (weatherForecast == WeatherForecast.SUN) {
             if (pokemon.getType() == TypeEnum.FIRE) {
-                pokemon.setDamage(pokemon.getDamage() * 2);
+                pokemon.setDamage(pokemon.getDamage() + 5);
                 System.out.println("Güneşli havada Ateş gücü 2 katına çıktı");
             } else if (pokemon.getType() == TypeEnum.WATER) {
-                pokemon.setDamage(pokemon.getDamage() / 2);
+                pokemon.setDamage(pokemon.getDamage() -5);
             }
 
         }
         if (weatherForecast == WeatherForecast.RAIN) {
             if (pokemon.getType() == TypeEnum.WATER) {
-                pokemon.setDamage(pokemon.getDamage() * 2);
+                pokemon.setDamage(pokemon.getDamage() +5);
             } else if (pokemon.getType() == TypeEnum.ELECTRICY) {
-                pokemon.setDamage(pokemon.getDamage() * 2);
+                pokemon.setDamage(pokemon.getDamage() +4);
             } else if (pokemon.getType() == TypeEnum.FIRE) {
-                pokemon.setDamage(pokemon.getDamage() / 2);
+                pokemon.setDamage(pokemon.getDamage() - 5);
             }
         }
 
         if (weatherForecast == WeatherForecast.WIND) {
             if (pokemon.getType() == TypeEnum.EARTH) {
-                pokemon.setDamage(pokemon.getDamage() * 2);
+                pokemon.setDamage(pokemon.getDamage() +5);
             } else if (pokemon.getType() == TypeEnum.FIRE) {
-                pokemon.setDamage(pokemon.getDamage() / 2);
+                pokemon.setDamage(pokemon.getDamage() -3);
             } else if (pokemon.getType() == TypeEnum.GRASS) {
-                pokemon.setDamage(pokemon.getDamage() * 2);
+                pokemon.setDamage(pokemon.getDamage() +4);
             } else if (pokemon.getType() == TypeEnum.ELECTRICY) {
-                pokemon.setDamage(pokemon.getDamage() / 2);
+                pokemon.setDamage(pokemon.getDamage() -3);
             }
         }
     }

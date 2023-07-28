@@ -38,4 +38,17 @@ public class LoadService {
 
         return pokemonList;
     }
+
+    public Pokemon getWeakestPokemon(ArrayList<Pokemon> pokemonList) {
+        Pokemon weakestPokemon = null;
+        int max = Integer.MAX_VALUE;
+        for(Pokemon p : pokemonList) {
+            if(p.getDamage() < max) {
+                weakestPokemon = p;
+            }
+        }
+        return weakestPokemon;
+    }
+
+
 }
