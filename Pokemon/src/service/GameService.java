@@ -1,5 +1,6 @@
 package service;
 
+import model.Character;
 import model.Player;
 import model.Pokemon;
 
@@ -11,6 +12,8 @@ public class GameService {
 
     Scanner scanner = new Scanner(System.in);
     LoadService loadService = new LoadService();
+
+    PlayerService playerService = new PlayerService();
 
     public void attack(Player attacker, Player defender, boolean isPokeSpecialAttack, boolean isCharSpecialAttack) {
         Pokemon attackingPokemon = attacker.getCharacter().getPokemonList().get(0);
@@ -85,8 +88,9 @@ public class GameService {
             System.out.println("Yanlis bir numara sectiniz.");
         }
         System.out.println("Atak sonrası pokemonların kalan canları : ");
-        System.out.print(attacker.getCharacter().getName() + " adlı oyuncunun pokemonu " + pokemonOfAttacker.getName() + " 'ın canı : " + pokemonOfAttacker.getHealth());
-        System.out.print(defender.getCharacter().getName() + " adlı oyuncunun pokemonu " + pokemonOfDefender.getName() + " 'ın canı : " + pokemonOfDefender.getHealth());
+        System.out.println(attacker.getName() + " adlı oyuncunun pokemonu " + pokemonOfAttacker.getName() + "'ın canı : " + pokemonOfAttacker.getHealth());
+        System.out.println(defender.getName() + " adlı oyuncunun pokemonu " + pokemonOfDefender.getName() + "'ın canı : " + pokemonOfDefender.getHealth());
+        System.out.println("------------------------------");
     }
 
 
@@ -105,14 +109,48 @@ public class GameService {
             pokemonList.remove(pokemonChooseOfWinner-1);
             pokemonList.add(pokemon);
         }
+        pokemonList.get(0).getSpecialPower().setRemainingRights(3);
     }
 
     public void makeChangesEndOfTheRound(Player winner, Player loser, ArrayList<Pokemon> pokemonList) {
-        System.out.println(loser.getName() + " oyunu kaybetti.");
-        winner.getCharacter().getPokemonList().add(loser.getCharacter().getPokemonList().get(0));
-        winner.getCharacter().getPokemonList().get(1).setHealth(100);
-        loser.getCharacter().getPokemonList().remove(0);
-        loser.getCharacter().getPokemonList().add(loadService.getWeakestPokemon(pokemonList));
+        ArrayList<Pokemon> winnerPokemonList = winner.getCharacter().getPokemonList();
+        ArrayList<Pokemon> loserPokemonList = loser.getCharacter().getPokemonList();
+
+        winnerPokemonList.add(loser.getCharacter().getPokemonList().get(0));
+        winnerPokemonList.get(1).setHealth(100);
+        winnerPokemonList.get(1).setDamage(loadService.getPokemonBaseDamage(winnerPokemonList.get(1).getName()));
+        loserPokemonList.remove(0);
+        loserPokemonList.add(loadService.getWeakestPokemon(pokemonList));
+
+        winner.getCharacter().setPokemonList(winnerPokemonList);
+        loser.getCharacter().setPokemonList(loserPokemonList);
+
+        winner.getCharacter().getSpecialPower().setRemainingRights(1);
+        loser.getCharacter().getSpecialPower().setRemainingRights(1);
         askWinnerToChoosePokemon(winner);
     }
+
+    public Player addNewUser(ArrayList<Character> characterList, ArrayList<Pokemon> pokemonList) {
+        for (int j = 0; j < characterList.size(); j++){
+            System.out.println((j + 1) + "." + characterList.get(j).getName());
+        }
+        System.out.print("Karekterinizi seçiniz :");
+        int characterChoose = scanner.nextInt();
+
+        System.out.print("İsminizi giriniz :");
+        String playerName = scanner.next();
+
+        Player player = playerService.createPlayer(playerName, characterList.get(characterChoose - 1));
+
+        for (int k = 0; k < pokemonList.size(); k++){
+            System.out.println((k+1)+ "." + pokemonList.get(k));
+        }
+        System.out.print("Lütfen oynamak istediğiniz pokemonu seçiniz :");
+        int pokemonChoose = scanner.nextInt();
+
+        player.getCharacter().getPokemonList().add(pokemonList.get(pokemonChoose-1));
+
+        return player;
+    }
+
 }

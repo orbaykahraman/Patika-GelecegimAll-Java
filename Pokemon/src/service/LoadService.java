@@ -29,12 +29,16 @@ public class LoadService {
         Pokemon pokemon2 = new Sqiurtle("Squirtle", 120, 8, TypeEnum.WATER, water);
         Pokemon pokemon3 = new Charmander("Charmender", 90, 12, TypeEnum.FIRE, fire);
         Pokemon pokemon4 = new Balbausar("Balbausar", 140, 7, TypeEnum.EARTH, earth);
+        Pokemon pokemon5 = new Balbausar("Ivysaur", 145, 8, TypeEnum.GRASS, new SpecialPower("Grass",2,3));
+        Pokemon pokemon6 = new Balbausar("Pidgeotto", 95, 11, TypeEnum.AIR, new SpecialPower("Air",6,3));
 
         ArrayList<Pokemon> pokemonList = new ArrayList<>();
         pokemonList.add(pokemon1);
         pokemonList.add(pokemon2);
         pokemonList.add(pokemon3);
         pokemonList.add(pokemon4);
+        pokemonList.add(pokemon5);
+        pokemonList.add(pokemon6);
 
         return pokemonList;
     }
@@ -50,5 +54,28 @@ public class LoadService {
         return weakestPokemon;
     }
 
+    public int getPokemonBaseDamage(String pokemonName) {
+        if(pokemonName.equalsIgnoreCase("Pikachu")) {
+            return 10;
+        }
+        else if(pokemonName.equalsIgnoreCase("Squirtle")) {
+            return 8;
+        }
+        else if(pokemonName.equalsIgnoreCase("Charmender")) {
+            return 12;
+        }
+        else if(pokemonName.equalsIgnoreCase("Balbausar")) {
+            return 7;
+        }
+        else if(pokemonName.equalsIgnoreCase("Iyvsaur")) {
+            return 8;
+        }
+        else if(pokemonName.equalsIgnoreCase("Pidgeotto")) {
+            return 11;
+        }
+        else {
+            return 0;
+        }
+    }
 
 }
