@@ -39,10 +39,10 @@ public class Game {
                     break;
             }
 
-             if(!location.onLocation()){
-                 System.out.println("GAME OVER " + p1.getName() + " character is dead");
-                 isDead = true;
-             }
+            if(!location.onLocation()){
+                System.out.println("GAME OVER " + p1.getName() + " character is dead");
+                isDead = true;
+            }
 
         }
 

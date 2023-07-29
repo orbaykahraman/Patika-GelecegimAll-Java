@@ -1,6 +1,6 @@
 public class River extends BattleLoc{
     private int water;
-        public River(Player player){
+    public River(Player player){
         super(player,"River");
         this.water = 0;
     }
